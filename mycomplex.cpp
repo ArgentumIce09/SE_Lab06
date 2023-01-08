@@ -4,11 +4,17 @@
 
 using namespace std;
 
+// aRe ƒействительна€ составл€юща€
+// aIm ћнима€ составл€юща€
+
 Complex :: Complex(double aRe, double aIm)
 {
  Re = aRe;
  Im = aIm;
 }
+
+// aRval.Re ƒействительна€ составл€юща€
+// aRval.Im ћнима€ составл€юща€
 
 Complex :: Complex(const Complex & aRval)
 {
