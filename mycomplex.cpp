@@ -1,200 +1,336 @@
+/**
+\file mycomplex.cpp
+\brief Заголовочный файл класса Complex
+*/
+
 #include <iostream>
 #include <cmath>
 #include "mycomplex.h"
 
 using namespace std;
 
-// aRe Действительная составляющая
-// aIm Мнимая составляющая
-
-Complex :: Complex(double aRe, double aIm)
+/**
+\brief Конструктор класса
+\param aRe Действительная составляющая
+\param aIm Мнимая составляющая
+*/
+Complex::Complex (double aRe, double aIm)
 {
- Re = aRe;
- Im = aIm;
+    Re = aRe;
+    Im = aIm;
 }
 
-// aRval.Re Действительная составляющая
-// aRval.Im Мнимая составляющая
-
-Complex :: Complex(const Complex & aRval)
+/**
+\brief Конструктор класса через указатель
+\param aRval.Re Действительная составляющая
+\param aRval.Im Мнимая составляющая
+*/
+Complex::Complex (const Complex &aRval)
 {
- Re = aRval.Re;
- Im = aRval.Im;
+    Re = aRval.Re;
+    Im = aRval.Im;
 }
 
-Complex :: ~Complex()
+/**
+\brief Деструктор
+*/
+Complex::~Complex()
 {
- Re = 0.0;
- Im = 0.0;
-}
-void Complex :: Set(double aRe, double aIm)
-{
- Re = aRe;
- Im = aIm;
+    Re = 0.0;
+    Im = 0.0;
 }
 
-Complex :: operator double()
+/**
+\brief Метод присваивания значения
+\param aRe Действительная составляющая
+\param aIm Мнимая составляющая
+*/
+void Complex::Set (double aRe, double aIm)
 {
- return abs();
+    Re = aRe;
+    Im = aIm;
 }
 
-double Complex :: abs()
+/**
+\brief Метод присваивания значения
+\param aRe Действительная составляющая
+\param aIm Мнимая составляющая
+\return Модуль
+*/
+Complex::operator double()
 {
- return sqrt( Re * Re + Im * Im );
+    return abs();
 }
 
-Complex Complex :: operator + (const Complex & aRval)
+/**
+\brief Метод абсолютное значение
+\return Модуль
+*/
+double Complex::abs()
 {
- Complex Result;
- Result.Re = Re + aRval.Re;
- Result.Im = Im + aRval.Im;
- return Result;
+    return sqrt(Re * Re + Im * Im);
 }
 
-Complex Complex :: operator - (const Complex & aRval)
+/**
+\brief Оператор +
+\param &aRval Комплексное число
+\return Сумма
+*/
+Complex Complex::operator + (const Complex &aRval)
 {
- Complex Result;
- Result.Re = Re - aRval.Re;
- Result.Im = Im - aRval.Im;
- return Result;
+    Complex Result;
+    Result.Re = Re + aRval.Re;
+    Result.Im = Im + aRval.Im ;
+    return Result;
 }
 
-Complex Complex :: operator + (const double & aVal)
+/**
+\brief Оператор -
+\param &aRval Комплексное число
+\return Разность
+*/
+Complex Complex::operator - (const Complex &aRval)
 {
- Complex result;
- result.Re = Re + aVal;
- result.Im = Im;
- return result;
+    Complex Result;
+    Result.Re = Re - aRval.Re;
+    Result.Im = Im - aRval.Im;
+    return Result;
 }
 
-Complex Complex :: operator - (const double & aRval)
+/**
+\brief Оператор +
+\param &aRval Комплексное число
+\return Сумма
+*/
+Complex Complex::operator + (const double &aRval)
 {
- Complex Result(*this);
- Result.Re = Re - aRval;
- return Result;
+    Complex Result;
+    Result.Re = Re + aRval;
+    Result.Im = Im;
+    return Result;
 }
 
-Complex Complex :: operator * (const Complex & aRval)
+/**
+\brief Оператор -
+\param &aRval Комплексное число
+\return Разность
+*/
+Complex Complex:: operator - (const  double &aRval)
 {
- Complex Result;
- Result.Re = Re * aRval.Re - Im * aRval.Im;
- Result.Im = Re * aRval.Im + Im * aRval.Re;
- return Result;
+    Complex Result(*this);
+    Result.Re = Re - aRval;
+    return Result;
 }
 
-Complex Complex :: operator * (const double & aRval)
+/**
+\brief Оператор *
+\param &aRval Комплексное число
+\return Произведение
+*/
+Complex Complex::operator * (const Complex &aRval)
 {
- Complex Result;
- Result.Re = Re * aRval;
- Result.Im = Im * aRval;
- return Result;
+    Complex Result;
+    Result.Re = Re * aRval.Re - Im * aRval.Im;
+    Result.Im = Re * aRval.Im + Im * aRval.Re;
+    return Result;
 }
 
-Complex Complex :: operator / (const double & aRval)
+/**
+\brief Оператор *
+\param &aRval Комплексное число константа
+\return Произведение
+*/
+Complex Complex::operator * (const double &aRval)
 {
- Complex Result;
- Result.Re = Re / aRval;
- Result.Im = Im / aRval;
- return Result; }
-
-Complex & Complex :: operator += ( const Complex & aRval)
-{
- Re += aRval.Re;
- Im += aRval.Im;
- return *this;
+    Complex Result;
+    Result.Re = Re * aRval;
+    Result.Im = Im * aRval;
+    return Result;
 }
 
-Complex & Complex :: operator -= (const Complex & aRval)
+/**
+\brief Оператор /
+\param &aRval Комплексное число
+\return Частное
+*/
+Complex Complex::operator / (const double &aRval)
 {
- Re -= aRval.Re;
- Im -= aRval.Im;
- return *this;
+    Complex Result;
+    Result.Re = Re / aRval;
+    Result.Im = Im / aRval;
+    return Result;
 }
 
-Complex & Complex :: operator *= (const Complex & aRval)
+/**
+\brief Оператор +=
+\param &aRval Комплексное число
+\return Сумма
+*/
+Complex &Complex::operator += (const Complex &aRval)
 {
- double tmpRe = Re;
- Re = Re * aRval.Re - Im * aRval.Im;
- Im = Im * aRval.Re + tmpRe * aRval.Im;
- return *this;
+    Re += aRval.Re;
+    Im += aRval.Im;
+    return *this;
 }
 
-Complex & Complex :: operator += (const double & aRval)
+/**
+\brief Оператор -=
+\param &aRval Комплексное число
+\return Разность
+*/
+Complex &Complex::operator -= (const Complex &aRval)
 {
- Re += aRval;
- return *this;
+    Re -= aRval.Re;
+    Im -= aRval.Im;
+    return *this;
 }
 
-Complex & Complex :: operator -= (const double & aRval)
+/**
+\brief Оператор *=
+\param &aRval Комплексное число
+\return Произведение
+*/
+Complex &Complex::operator *= (const Complex &aRval)
 {
- Re -= aRval;
- return *this;
+    double tmpRe = Re;
+    Re = Re * aRval.Re - Im * aRval.Im;
+    Im = Im * aRval.Re + tmpRe * aRval.Im;
+    return *this;
 }
 
-Complex & Complex :: operator *= (const double & aRval)
+/**
+\brief Оператор +=
+\param &aRval Комплексное число
+\return Сумма
+*/
+Complex &Complex::operator += (const double &aRval)
 {
- Re *= aRval;
- Im *= aRval;
- return *this;
+    Re += aRval;
+    return *this;
 }
 
-Complex & Complex :: operator /= (const double & aRval)
+/**
+\brief Оператор -=
+\param &aRval Комплексное число
+\return Разность
+*/
+Complex &Complex::operator -= (const double &aRval)
 {
- Re /= aRval;
- Im /= aRval;
- return *this;
+    Re -= aRval;
+    return *this;
 }
 
-Complex & Complex :: operator = (const Complex & aRval)
+/**
+\brief Оператор *=
+\param &aRval Комплексное число
+\return Произведение
+*/
+Complex &Complex::operator *= (const double &aRval)
 {
- Re = aRval.Re;
- Im = aRval.Im;
- return *this;
+    Re *= aRval;
+    Im *= aRval;
+    return *this;
 }
 
-Complex & Complex :: operator = (const double & aRval)
+/**
+\brief Оператор /=
+\param &aRval Комплексное число
+\return Частное
+*/
+Complex &Complex::operator /= (const double &aRval)
 {
- Re = aRval;
- Im = 0.0;
- return *this;
+    Re /= aRval;
+    Im /= aRval;
+    return *this;
 }
 
-istream & operator >> (istream & stream, Complex & a)
+/**
+\brief Оператор =
+\param &aRval Комплексное число
+\return Присваивание
+*/
+Complex &Complex::operator = (const Complex &aRval)
 {
- char tmp[256];
- stream >> a.Re >> a.Im >> tmp;
- return stream;
+    Re = aRval.Re;
+    Im = aRval.Im;
+    return *this;
 }
 
-ostream & operator << (ostream & stream, Complex & a)
+/**
+\brief Оператор =
+\param &aRval Комплексное число
+\return Присваивание
+*/
+Complex &Complex::operator = (const double &aRval)
 {
- stream << a.Re;
- if ( !(a.Im < 0) )
- stream << '+';
- stream << a.Im << 'i';
- return stream;
+    Re = aRval;
+    Im = 0.0;
+    return *this;
 }
 
-Complex operator + (const double & aLval, const Complex & aRval)
+/**
+\brief Оператор >>
+\param &aRval Комплексное число
+\return сдвиг вправо
+*/
+istream &operator >> (istream& stream, Complex &aRval)
 {
- Complex Result;
- Result.Re = aLval + aRval.Re;
- Result.Im = aRval.Im;
- return Result;
+    char tmp[256];
+    stream >> aRval.Re >> aRval.Im >> tmp;
+    return stream;
 }
 
-Complex operator - (const double & aLval, const Complex & aRval)
+/**
+\brief Оператор <<
+\param &aRval Комплексное число
+\return сдвиг влево
+*/
+ostream &operator << (ostream& stream, Complex &aRval)
 {
- Complex Result;
- Result.Re = aLval - aRval.Re;
- Result.Im -= aRval.Im;
- return Result;
+    stream << aRval.Re;
+    if(!(aRval.Im < 0))
+    {
+        stream << '+';
+        stream << aRval.Im << 'i';
+    }
+    return stream;
 }
 
-Complex operator * (const double & aLval, const Complex & a)
+/**
+\brief Оператор +
+\param &aRval Комплексное число
+\return Сумма
+*/
+Complex operator + (const double& aLval, const Complex &aRval)
 {
- Complex r;
- r.Re = aLval * a.Re;
- r.Im = aLval * a.Im;
- return r;
+    Complex Result;
+    Result.Re = aLval + aRval.Re;
+    Result.Im =  aRval.Im;
+    return Result;
+}
+
+/**
+\brief Оператор -
+\param &aRval Комплексное число
+\return Разность
+*/
+Complex operator - (const double &aLval, const Complex &aRval)
+{
+    Complex Result;
+    Result.Re = aLval - aRval.Re;
+    Result.Im =- aRval.Im;
+    return Result;
+}
+
+/**
+\brief Оператор *
+\param &aRval Комплексное число
+\return Произведение
+*/
+Complex operator * (const double &aLval, const Complex &aRval)
+{
+    Complex Result;
+    Result.Re = aLval * aRval.Re;
+    Result.Im = aLval * aRval.Im;
+    return Result;
 }
